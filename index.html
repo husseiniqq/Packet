@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>PAKET | باكيت - الطعم العراقي بحلّة جديدة</title>
+<meta name="description" content="مطعم باكيت - برجر عراقي 100% لحم عراقي. فرع شارع فلسطين وفرع الحارثية، بغداد." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lalezar&family=Tajawal:wght@300;400;500;700;800;900&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+  :root{
+    --red:#B5121B;
+    --red-dark:#8B0E16;
+    --cream:#F6F1EA;
+    --cream-2:#EFE7DB;
+    --black:#111111;
+    --white:#FFFFFF;
+  }
+  *{ box-sizing:border-box; }
+  html{ scroll-behavior:smooth; }
+  body{
+    font-family:'Tajawal',sans-serif;
+    background:var(--cream);
+    color:var(--black);
+    overflow-x:hidden;
+  }
+  .font-display{ font-family:'Lalezar', 'Tajawal', sans-serif; }
+  .font-num{ font-family:'Space Grotesk','Tajawal',sans-serif; }
+
+  .stripe{
+    height:7px; width:100%;
+    background:linear-gradient(to left,
+      var(--black) 0 33.333%, var(--white) 33.333% 66.666%, var(--red) 66.666% 100%);
+  }
+
+  .price-tag{
+    display:inline-flex; align-items:center; gap:.25rem;
+    background:var(--cream); border:2px solid var(--black); color:var(--black);
+    font-family:'Space Grotesk',sans-serif; font-weight:700;
+    padding:.35rem .85rem; border-radius:999px;
+    transform:rotate(-3deg); box-shadow:3px 3px 0 var(--red); white-space:nowrap;
+  }
+  .price-tag span.iqd{ font-family:'Tajawal',sans-serif; font-weight:700; font-size:.7rem; opacity:.7; }
+
+  .reveal{
+    opacity:0; transform:translateY(28px);
+    transition:opacity .7s cubic-bezier(.22,1,.36,1), transform .7s cubic-bezier(.22,1,.36,1);
+  }
+  .reveal.in{ opacity:1; transform:translateY(0); }
+  .reveal-delay-1{ transition-delay:.08s; }
+  .reveal-delay-2{ transition-delay:.16s; }
+  .reveal-delay-3{ transition-delay:.24s; }
+
+  #site-header{ transition: padding .35s ease, background-color .35s ease, box-shadow .35s ease; }
+  #site-header.scrolled{ box-shadow:0 2px 24px rgba(0,0,0,.08); }
+
+  .btn{
+    display:inline-flex; align-items:center; justify-content:center; gap:.5rem;
+    font-weight:800; border-radius:999px; padding:.85rem 2rem;
+    transition: transform .2s cubic-bezier(.34,1.56,.64,1), box-shadow .2s ease, background-color .2s ease, color .2s ease;
+    white-space:nowrap;
+  }
+  .btn:active{ transform:scale(.95); }
+  .btn-red{ background:var(--red); color:var(--cream); box-shadow:0 8px 24px -8px rgba(181,18,27,.6); }
+  .btn-red:hover{ background:var(--red-dark); transform:translateY(-2px); }
+  .btn-outline{ border:2px solid var(--black); color:var(--black); background:transparent; }
+  .btn-outline:hover{ background:var(--black); color:var(--cream); transform:translateY(-2px); }
+  .btn-outline-light{ border:2px solid var(--cream); color:var(--cream); background:transparent; }
+  .btn-outline-light:hover{ background:var(--cream); color:var(--black); transform:translateY(-2px); }
+
+  .img-zoom{ overflow:hidden; }
+  .img-zoom img{ transition: transform .6s cubic-bezier(.22,1,.36,1); }
+  .img-zoom:hover img{ transform:scale(1.08) rotate(-1deg); }
+
+  .hero-red-block{
+    position:absolute; inset:0; background:var(--red);
+    clip-path: polygon(38% 0, 100% 0, 100% 100%, 18% 100%);
+  }
+  @media (max-width: 900px){
+    .hero-red-block{ clip-path: polygon(0 58%, 100% 42%, 100% 100%, 0 100%); }
+  }
+
+  .float-badge{ animation: floaty 5s ease-in-out infinite; }
+  @keyframes floaty{
+    0%,100%{ transform: translateY(0) rotate(-6deg); }
+    50%{ transform: translateY(-12px) rotate(-2deg); }
+  }
+
+  #wa-float{
+    position:fixed; bottom:1.5rem; left:1.5rem; z-index:50;
+    width:60px; height:60px; border-radius:50%;
+    background:#25D366; display:flex; align-items:center; justify-content:center;
+    box-shadow:0 10px 30px -8px rgba(0,0,0,.4);
+    animation: pulse 2.4s ease-in-out infinite;
+  }
+  @keyframes pulse{
+    0%,100%{ box-shadow:0 10px 30px -8px rgba(0,0,0,.4), 0 0 0 0 rgba(37,211,102,.5); }
+    50%{ box-shadow:0 10px 30px -8px rgba(0,0,0,.4), 0 0 0 12px rgba(37,211,102,0); }
+  }
+
+  .section-eyebrow{
+    display:inline-flex; align-items:center; gap:.6rem;
+    font-weight:800; letter-spacing:.04em; color:var(--red); font-size:.95rem;
+  }
+  .section-eyebrow::before{ content:''; display:block; width:28px; height:3px; background:var(--red); border-radius:2px; }
+</style>
+</head>
+<body class="bg-[#F6F1EA]">
+
+<!-- ============ HEADER ============ -->
+<header id="site-header" class="fixed top-0 inset-x-0 z-50 bg-[#F6F1EA]/90 backdrop-blur-md">
+  <div class="stripe"></div>
+  <div class="max-w-7xl mx-auto px-5 md:px-8 flex items-center justify-between py-4">
+    <a href="#home" class="font-display text-2xl tracking-wide text-[#111111] flex items-center gap-2">
+      <span class="bg-[#B5121B] text-[#F6F1EA] rounded-lg px-3 py-1">paket</span>
+    </a>
+    <nav class="hidden lg:flex items-center gap-8 font-bold text-sm">
+      <a href="#home" class="hover:text-[#B5121B] transition-colors">الرئيسية</a>
+      <a href="#menu" class="hover:text-[#B5121B] transition-colors">المنيو</a>
+      <a href="#full-menu" class="hover:text-[#B5121B] transition-colors">برجر غربي</a>
+      <a href="#branches" class="hover:text-[#B5121B] transition-colors">الفروع</a>
+      <a href="#contact" class="hover:text-[#B5121B] transition-colors">تواصل</a>
+    </nav>
+    <div class="flex items-center gap-3">
+      <a href="tel:07740008009" class="hidden md:inline-flex btn btn-outline !py-2 !px-5 text-sm">اتصل بنا</a>
+      <a href="https://wa.me/9647740008009" target="_blank" class="btn btn-red !py-2 !px-6 text-sm">اطلب الآن</a>
+    </div>
+  </div>
+</header>
+
+<!-- ============ HERO ============ -->
+<section id="home" class="relative min-h-screen flex items-center pt-28 pb-16 overflow-hidden">
+  <div class="hero-red-block"></div>
+
+  <div class="relative z-10 max-w-7xl mx-auto px-5 md:px-8 w-full grid lg:grid-cols-2 gap-12 items-center">
+    <div class="reveal in">
+      <div class="section-eyebrow mb-5"><span>100% لحم عراقي 🇮🇶</span></div>
+      <h1 class="inline-block font-display text-5xl sm:text-6xl md:text-7xl lg:text-[5.2vw] leading-[1.05] text-[#111111] bg-[#F6F1EA] px-2 -mx-2 md:bg-transparent md:px-0 md:-mx-0">
+        برجر اكبر<br/>و اسمك.. و ارخص
+      </h1>
+      <p class="mt-6 text-lg md:text-xl font-medium text-[#3a3a3a] max-w-md leading-relaxed">
+        عراقي مع البرجر الشعبي العراقي... لحم عراقي خالص، وصفة باكيت الأصلية.
+      </p>
+      <div class="mt-9 flex flex-wrap gap-4">
+        <a href="https://wa.me/9647740008009" target="_blank" class="btn btn-red text-lg">اطلب الآن</a>
+        <a href="#menu" class="btn btn-outline text-lg">استكشف المنيو</a>
+      </div>
+    </div>
+
+    <div class="relative flex justify-center lg:justify-end">
+      <div class="relative w-[78%] max-w-md aspect-square">
+        <div class="absolute inset-0 rounded-[2.5rem] bg-[#F6F1EA] border-4 border-[#111111] rotate-3"></div>
+        <img src="/assets/iraqi_paket.png" alt="برجر عراقي باكيت" class="absolute inset-3 rounded-[2rem] w-[calc(100%-1.5rem)] h-[calc(100%-1.5rem)] object-cover -rotate-2 shadow-2xl"/>
+        <div class="float-badge absolute -top-6 -right-6 md:-right-10 bg-[#111111] text-[#F6F1EA] rounded-full w-28 h-28 md:w-32 md:h-32 flex flex-col items-center justify-center text-center font-display leading-tight shadow-xl border-2 border-[#F6F1EA]">
+          <span class="text-2xl md:text-3xl">100%</span>
+          <span class="text-xs md:text-sm">لحم عراقي 🇮🇶</span>
+        </div>
+        <div class="absolute -bottom-5 -left-5 md:-left-10 price-tag text-base md:text-lg !rotate-3">
+          <span class="font-num">3,000</span><span class="iqd">د.ع</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="#menu" class="hidden md:flex absolute bottom-8 left-1/2 -translate-x-1/2 flex-col items-center gap-2 text-xs font-bold text-[#111111]/60 z-10">
+    <span>مرر للأسفل</span>
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M19 12l-7 7-7-7"/></svg>
+  </a>
+</section>
+
+<!-- ============ MARQUEE ============ -->
+<div class="bg-[#111111] text-[#F6F1EA] py-4 overflow-hidden border-y-4 border-[#B5121B]">
+  <div class="marquee-track font-display text-xl md:text-2xl gap-10" style="display:flex;width:max-content;animation:marquee 28s linear infinite;">
+    <div class="flex gap-10 pr-10">
+      <span>PAKET — باكيت</span><span class="text-[#B5121B]">★</span>
+      <span>100% لحم عراقي 🇮🇶</span><span class="text-[#B5121B]">★</span>
+      <span>برجر اكبر و اسمك.. و ارخص</span><span class="text-[#B5121B]">★</span>
+    </div>
+    <div class="flex gap-10 pr-10">
+      <span>PAKET — باكيت</span><span class="text-[#B5121B]">★</span>
+      <span>100% لحم عراقي 🇮🇶</span><span class="text-[#B5121B]">★</span>
+      <span>برجر اكبر و اسمك.. و ارخص</span><span class="text-[#B5121B]">★</span>
+    </div>
+  </div>
+</div>
+<style>@keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}</style>
+
+<!-- ============ MENU — 3 IRAQI BURGERS ONLY ============ -->
+<section id="menu" class="relative bg-[#B5121B] text-[#F6F1EA] py-24 overflow-hidden">
+  <div class="absolute -top-24 -left-24 w-72 h-72 rounded-full border-[3px] border-white/10"></div>
+  <div class="absolute bottom-0 right-0 w-96 h-96 rounded-full border-[3px] border-white/10 translate-x-1/3 translate-y-1/3"></div>
+
+  <div class="relative max-w-7xl mx-auto px-5 md:px-8">
+    <div class="reveal mb-12 text-center">
+      <p class="section-eyebrow mb-3 justify-center !text-[#F6F1EA]"><span style="color:#F6F1EA">★</span> عراقي مع البرجر الشعبي العراقي <span style="color:#F6F1EA">★</span></p>
+      <h2 class="font-display text-5xl md:text-7xl mb-4">منيو باكيت</h2>
+      <p class="max-w-xl mx-auto text-white/80 font-medium">ثلاث وصفات برجر، نكهة عراقية خالصة، وسعر واحد يناسب الكل.</p>
+    </div>
+
+    <div class="grid md:grid-cols-3 gap-6 md:gap-8">
+      <!-- 1 -->
+      <div class="reveal reveal-delay-1 bg-[#F6F1EA] text-[#111111] rounded-3xl p-4 pb-6">
+        <div class="img-zoom relative rounded-2xl aspect-square mb-4">
+          <img src="/assets/iraqi_classic.png" alt="برجر عراقي كلاسك" class="w-full h-full object-cover rounded-2xl"/>
+        </div>
+        <div class="flex items-center justify-between gap-2 mb-1">
+          <h3 class="font-display text-2xl">برجر عراقي كلاسك</h3>
+          <span class="price-tag !shadow-[3px_3px_0_#B5121B] text-sm"><span class="font-num">3,000</span><span class="iqd">د.ع</span></span>
+        </div>
+        <p class="text-sm text-[#555] leading-relaxed">طعم الأصل، بنكهة باكيت.</p>
+      </div>
+      <!-- 2 -->
+      <div class="reveal reveal-delay-2 bg-[#F6F1EA] text-[#111111] rounded-3xl p-4 pb-6 md:-translate-y-6">
+        <div class="img-zoom relative rounded-2xl aspect-square mb-4">
+          <img src="/assets/iraqi_paket.png" alt="برجر عراقي باكيت" class="w-full h-full object-cover rounded-2xl"/>
+        </div>
+        <div class="flex items-center justify-between gap-2 mb-1">
+          <h3 class="font-display text-2xl">برجر عراقي باكيت</h3>
+          <span class="price-tag !shadow-[3px_3px_0_#B5121B] text-sm"><span class="font-num">3,000</span><span class="iqd">د.ع</span></span>
+        </div>
+        <p class="text-sm text-[#555] leading-relaxed">توقيعنا الخاص اللي صار اسمنا.</p>
+      </div>
+      <!-- 3 -->
+      <div class="reveal reveal-delay-3 bg-[#F6F1EA] text-[#111111] rounded-3xl p-4 pb-6">
+        <div class="img-zoom relative rounded-2xl aspect-square mb-4">
+          <img src="/assets/iraqi_special.png" alt="برجر عراقي صاص" class="w-full h-full object-cover rounded-2xl"/>
+        </div>
+        <div class="flex items-center justify-between gap-2 mb-1">
+          <h3 class="font-display text-2xl">برجر عراقي صاص</h3>
+          <span class="price-tag !shadow-[3px_3px_0_#B5121B] text-sm"><span class="font-num">3,000</span><span class="iqd">د.ع</span></span>
+        </div>
+        <p class="text-sm text-[#555] leading-relaxed">نكهة خاصة، لمن يطلب الأفضل.</p>
+      </div>
+    </div>
+
+    <div class="reveal mt-12 text-center">
+      <div class="inline-flex items-center gap-3 bg-[#111111] rounded-full px-8 py-4 font-display text-xl md:text-2xl">
+        <span class="text-[#F6F1EA]">برجر اكبر و اسمك.. و ارخص</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FULL MENU — WESTERN BURGERS ============ -->
+<section id="full-menu" class="py-24 max-w-7xl mx-auto px-5 md:px-8">
+  <div class="reveal mb-10 text-center md:text-right">
+    <p class="section-eyebrow mb-3 justify-center md:justify-start">غربي مع البرجر الغربي الأحترافي</p>
+    <h2 class="font-display text-5xl md:text-6xl">اختار الي يناسبك</h2>
+  </div>
+
+  <!-- filter tabs -->
+  <div class="reveal flex flex-wrap gap-3 justify-center md:justify-start mb-10">
+    <button data-filter="all" class="menu-filter btn btn-red !py-2 !px-6 text-sm">الكل</button>
+    <button data-filter="beef" class="menu-filter btn btn-outline !py-2 !px-6 text-sm">برجر اللحم</button>
+    <button data-filter="chicken" class="menu-filter btn btn-outline !py-2 !px-6 text-sm">برجر الدجاج</button>
+  </div>
+
+  <div id="menu-grid" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
+
+    <div class="menu-item reveal" data-cat="beef">
+      <div class="img-zoom rounded-2xl aspect-square mb-3"><img src="/assets/super_baki.png" alt="سوبر باكي" class="w-full h-full object-cover rounded-2xl"/></div>
+      <div class="flex items-center justify-between gap-2"><h4 class="font-bold text-sm md:text-base">سوبر باكي</h4><span class="font-num font-bold text-[#B5121B] text-sm">6,000</span></div>
+      <p class="text-xs text-[#777]">جبن برجر + خضروات فريش</p>
+    </div>
+
+    <div class="menu-item reveal" data-cat="beef">
+      <div class="img-zoom rounded-2xl aspect-square mb-3"><img src="/assets/baki.png" alt="باكي" class="w-full h-full object-cover rounded-2xl"/></div>
+      <div class="flex items-center justify-between gap-2"><h4 class="font-bold text-sm md:text-base">باكي</h4><span class="font-num font-bold text-[#B5121B] text-sm">6,000</span></div>
+      <p class="text-xs text-[#777]">جيز برجر</p>
+    </div>
+
+    <div class="menu-item reveal" data-cat="beef">
+      <div class="img-zoom rounded-2xl aspect-square mb-3"><img src="/assets/crispy.png" alt="كرسيي" class="w-full h-full object-cover rounded-2xl"/></div>
+      <div class="flex items-center justify-between gap-2"><h4 class="font-bold text-sm md:text-base">كرسيي</h4><span class="font-num font-bold text-[#B5121B] text-sm">7,000</span></div>
+      <p class="text-xs text-[#777]">بطاطا مقرمشة</p>
+    </div>
+
+    <div class="menu-item reveal" data-cat="beef">
+      <div class="img-zoom rounded-2xl aspect-square mb-3"><img src="/assets/mdakhan_bak.png" alt="مدخن باك" class="w-full h-full object-cover rounded-2xl"/></div>
+      <div class="flex items-center justify-between gap-2"><h4 class="font-bold text-sm md:text-base">مدخن باك</h4><span class="font-num font-bold text-[#B5121B] text-sm">7,000</span></div>
+      <p class="text-xs text-[#777]">نكهة مدخّنة</p>
+    </div>
+
+    <div class="menu-item reveal" data-cat="beef">
+      <div class="img-zoom rounded-2xl aspect-square mb-3"><img src="/assets/mushroom_bak.png" alt="مشروم باك" class="w-full h-full object-cover rounded-2xl"/></div>
+      <div class="flex items-center justify-between gap-2"><h4 class="font-bold text-sm md:text-base">مشروم باك</h4><span class="font-num font-bold text-[#B5121B] text-sm">6,000</span></div>
+      <p class="text-xs text-[#777]">فطر طازج</p>
+    </div>
+
+    <div class="menu-item reveal" data-cat="beef">
+      <div class="img-zoom rounded-2xl aspect-square mb-3"><img src="/assets/fire_bak.png" alt="فاير باك" class="w-full h-full object-cover rounded-2xl"/></div>
+      <div class="flex items-center justify-between gap-2"><h4 class="font-bold text-sm md:text-base">فاير باك</h4><span class="font-num font-bold text-[#B5121B] text-sm">6,000</span></div>
+      <p class="text-xs text-[#777]">سبايسي</p>
+    </div>
+
+    <div class="menu-item reveal" data-cat="beef">
+      <div class="img-zoom rounded-2xl aspect-square mb-3"><img src="/assets/mac_cheese.png" alt="ماك و جيز" class="w-full h-full object-cover rounded-2xl"/></div>
+      <div class="flex items-center justify-between gap-2"><h4 class="font-bold text-sm md:text-base">ماك &amp; جيز</h4><span class="font-num font-bold text-[#B5121B] text-sm">8,000</span></div>
+      <p class="text-xs text-[#777]">مكرونة بالجبن</p>
+    </div>
+
+    <div class="menu-item reveal" data-cat="beef">
+      <div class="img-zoom rounded-2xl aspect-square mb-3"><img src="/assets/crazy_cheesy.png" alt="كريزي جيزي" class="w-full h-full object-cover rounded-2xl"/></div>
+      <div class="flex items-center justify-between gap-2"><h4 class="font-bold text-sm md:text-base">كريزي جيزي</h4><span class="font-num font-bold text-[#B5121B] text-sm">7,000</span></div>
+      <p class="text-xs text-[#777]">جبن سايح</p>
+    </div>
+
+    <div class="menu-item reveal" data-cat="beef">
+      <div class="img-zoom rounded-2xl aspect-square mb-3"><img src="/assets/dark_mushroom.png" alt="دارك مشروم" class="w-full h-full object-cover rounded-2xl"/></div>
+      <div class="flex items-center justify-between gap-2"><h4 class="font-bold text-sm md:text-base">دارك مشروم</h4><span class="font-num font-bold text-[#B5121B] text-sm">7,000</span></div>
+      <p class="text-xs text-[#777]">صوص فطر كريمي</p>
+    </div>
+
+    <div class="menu-item reveal" data-cat="beef">
+      <div class="img-zoom rounded-2xl aspect-square mb-3"><img src="/assets/big_bak.png" alt="بيك باك" class="w-full h-full object-cover rounded-2xl"/></div>
+      <div class="flex items-center justify-between gap-2"><h4 class="font-bold text-sm md:text-base">بيك باك</h4><span class="font-num font-bold text-[#B5121B] text-sm">10,000</span></div>
+      <p class="text-xs text-[#777]">دبل + دبل صمون</p>
+    </div>
+
+    <div class="menu-item reveal" data-cat="beef">
+      <div class="img-zoom rounded-2xl aspect-square mb-3"><img src="/assets/king_bak.png" alt="كينك باك" class="w-full h-full object-cover rounded-2xl"/></div>
+      <div class="flex items-center justify-between gap-2"><h4 class="font-bold text-sm md:text-base">كينك باك</h4><span class="font-num font-bold text-[#B5121B] text-sm">12,000</span></div>
+      <p class="text-xs text-[#777]">مدخّن بالفطر</p>
+    </div>
+
+    <div class="menu-item reveal" data-cat="beef">
+      <div class="img-zoom rounded-2xl aspect-square mb-3"><img src="/assets/bak_double.png" alt="باك دبل" class="w-full h-full object-cover rounded-2xl"/></div>
+      <div class="flex items-center justify-between gap-2"><h4 class="font-bold text-sm md:text-base">باك دبل</h4><span class="font-num font-bold text-[#B5121B] text-sm">9,000</span></div>
+      <p class="text-xs text-[#777]">دبل لحم</p>
+    </div>
+
+    <div class="menu-item reveal" data-cat="chicken">
+      <div class="img-zoom rounded-2xl aspect-square mb-3"><img src="/assets/chicken_bak.png" alt="تشيكن باك" class="w-full h-full object-cover rounded-2xl"/></div>
+      <div class="flex items-center justify-between gap-2"><h4 class="font-bold text-sm md:text-base">تشيكن باك</h4><span class="font-num font-bold text-[#B5121B] text-sm">6,000</span></div>
+      <p class="text-xs text-[#777]">دجاج مقرمش</p>
+    </div>
+
+    <div class="menu-item reveal" data-cat="chicken">
+      <div class="img-zoom rounded-2xl aspect-square mb-3"><img src="/assets/bon_fire.png" alt="بون فاير" class="w-full h-full object-cover rounded-2xl"/></div>
+      <div class="flex items-center justify-between gap-2"><h4 class="font-bold text-sm md:text-base">بون فاير</h4><span class="font-num font-bold text-[#B5121B] text-sm">7,000</span></div>
+      <p class="text-xs text-[#777]">دجاج سبايسي</p>
+    </div>
+
+    <div class="menu-item reveal" data-cat="chicken">
+      <div class="img-zoom rounded-2xl aspect-square mb-3"><img src="/assets/cole_slaw.png" alt="كول سلو" class="w-full h-full object-cover rounded-2xl"/></div>
+      <div class="flex items-center justify-between gap-2"><h4 class="font-bold text-sm md:text-base">كول سلو</h4><span class="font-num font-bold text-[#B5121B] text-sm">7,000</span></div>
+      <p class="text-xs text-[#777]">دجاج + سلطة للعائلة</p>
+    </div>
+
+    <div class="menu-item reveal" data-cat="chicken">
+      <div class="img-zoom rounded-2xl aspect-square mb-3"><img src="/assets/grilled_chicken.png" alt="مشوي تشيكن" class="w-full h-full object-cover rounded-2xl"/></div>
+      <div class="flex items-center justify-between gap-2"><h4 class="font-bold text-sm md:text-base">مشوي تشيكن</h4><span class="font-num font-bold text-[#B5121B] text-sm">6,000</span></div>
+      <p class="text-xs text-[#777]">دجاج مشوي</p>
+    </div>
+
+    <div class="menu-item reveal" data-cat="chicken">
+      <div class="img-zoom rounded-2xl aspect-square mb-3"><img src="/assets/grand_chicken.png" alt="جراند تشيكن" class="w-full h-full object-cover rounded-2xl"/></div>
+      <div class="flex items-center justify-between gap-2"><h4 class="font-bold text-sm md:text-base">جراند تشيكن</h4><span class="font-num font-bold text-[#B5121B] text-sm">7,500</span></div>
+      <p class="text-xs text-[#777]">دبل دجاج مقرمش</p>
+    </div>
+
+    <div class="menu-item reveal" data-cat="chicken">
+      <div class="img-zoom rounded-2xl aspect-square mb-3"><img src="/assets/smoked_chicken.png" alt="مدخن تشيكن" class="w-full h-full object-cover rounded-2xl"/></div>
+      <div class="flex items-center justify-between gap-2"><h4 class="font-bold text-sm md:text-base">مدخن تشيكن</h4><span class="font-num font-bold text-[#B5121B] text-sm">6,500</span></div>
+      <p class="text-xs text-[#777]">دجاج مقرمش مدخّن</p>
+    </div>
+
+  </div>
+</section>
+
+<!-- ============ WHY PAKET ============ -->
+<section class="bg-[#111111] text-[#F6F1EA] py-24">
+  <div class="max-w-7xl mx-auto px-5 md:px-8">
+    <div class="reveal mb-14 text-center md:text-right">
+      <p class="section-eyebrow mb-3 justify-center md:justify-start">ليش باكيت؟</p>
+      <h2 class="font-display text-5xl md:text-6xl">لحومنا عراقية خالصة</h2>
+    </div>
+
+    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div class="reveal reveal-delay-1 group border border-white/10 rounded-3xl p-7 hover:border-[#B5121B] hover:-translate-y-2 transition-all duration-300 bg-white/[0.03]">
+        <div class="w-14 h-14 rounded-2xl bg-[#B5121B] flex items-center justify-center mb-6 group-hover:rotate-6 transition-transform">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#F6F1EA" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21c4.97 0 9-3.58 9-8 0-2.5-2-4-4-4-1.5 0-2 1-3.5 1S11 9 9.5 9 7 10 5.5 10 3 11.5 3 13c0 4.42 4.03 8 9 8z"/></svg>
+        </div>
+        <h3 class="font-display text-2xl mb-2">لحم عراقي 100%</h3>
+        <p class="text-sm text-white/60 leading-relaxed">لا تخاطر بصحتك وصحة أطفالك باللحوم المجهولة المصدر — اختار الصح، اختار المطعم اللي يقدّملك أكل بنظافة وجودة أكل البيت.</p>
+      </div>
+      <div class="reveal reveal-delay-2 group border border-white/10 rounded-3xl p-7 hover:border-[#B5121B] hover:-translate-y-2 transition-all duration-300 bg-white/[0.03]">
+        <div class="w-14 h-14 rounded-2xl bg-[#B5121B] flex items-center justify-center mb-6 group-hover:rotate-6 transition-transform">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#F6F1EA" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l8 3v6c0 5-3.5 8.5-8 11-4.5-2.5-8-6-8-11V5l8-3z"/><path d="M9 12l2 2 4-4"/></svg>
+        </div>
+        <h3 class="font-display text-2xl mb-2">جودة أكل البيت</h3>
+        <p class="text-sm text-white/60 leading-relaxed">أنت وعائلتك بأمان وياّنا — اختار المطعم الصح.</p>
+      </div>
+      <div class="reveal reveal-delay-3 group border border-white/10 rounded-3xl p-7 hover:border-[#B5121B] hover:-translate-y-2 transition-all duration-300 bg-white/[0.03]">
+        <div class="w-14 h-14 rounded-2xl bg-[#B5121B] flex items-center justify-center mb-6 group-hover:rotate-6 transition-transform">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#F6F1EA" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L4 14h6l-1 8 9-12h-6l1-8z"/></svg>
+        </div>
+        <h3 class="font-display text-2xl mb-2">برجر اكبر و اسمك.. و ارخص</h3>
+        <p class="text-sm text-white/60 leading-relaxed">سعر واحد ثابت 3,000 د.ع لكل أصناف البرجر العراقي — بدون مفاجآت.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ BRANCHES ============ -->
+<section id="branches" class="py-24 max-w-7xl mx-auto px-5 md:px-8">
+  <div class="reveal mb-12 text-center md:text-right">
+    <p class="section-eyebrow mb-3 justify-center md:justify-start">فروعنا</p>
+    <h2 class="font-display text-5xl md:text-6xl">وين نلتقي؟</h2>
+  </div>
+
+  <div class="grid md:grid-cols-2 gap-6">
+    <!-- branch 1: Palestine Street -->
+    <div class="reveal reveal-delay-1 bg-white rounded-3xl p-8 shadow-[0_8px_30px_-12px_rgba(0,0,0,0.12)] hover:shadow-[0_20px_40px_-15px_rgba(181,18,27,0.25)] transition-shadow">
+      <div class="flex items-start justify-between mb-6">
+        <div>
+          <h3 class="font-display text-2xl mb-1">فرع شارع فلسطين</h3>
+          <p class="text-[#666] text-sm leading-relaxed">شارع فلسطين، تقاطع الموال، مقابل وزارة العمل والشؤون الاجتماعية<br/>(مقابل باب الجامعة المستنصرية)</p>
+        </div>
+        <div class="w-12 h-12 rounded-full bg-[#B5121B] flex items-center justify-center shrink-0">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#F6F1EA" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        </div>
+      </div>
+      <div class="flex flex-wrap gap-3">
+        <a href="tel:07740008009" class="btn btn-outline !py-2 !px-5 text-sm">07740008009</a>
+        <a href="tel:07850008009" class="btn btn-outline !py-2 !px-5 text-sm">07850008009</a>
+        <a href="https://wa.me/9647740008009" target="_blank" class="btn btn-red !py-2 !px-5 text-sm">واتساب</a>
+      </div>
+    </div>
+    <!-- branch 2: Harithiya -->
+    <div class="reveal reveal-delay-2 bg-white rounded-3xl p-8 shadow-[0_8px_30px_-12px_rgba(0,0,0,0.12)] hover:shadow-[0_20px_40px_-15px_rgba(181,18,27,0.25)] transition-shadow">
+      <div class="flex items-start justify-between mb-6">
+        <div>
+          <h3 class="font-display text-2xl mb-1">فرع الحارثية</h3>
+          <p class="text-[#666] text-sm leading-relaxed">نهاية شارع الكندي، مقابل علي باريس</p>
+        </div>
+        <div class="w-12 h-12 rounded-full bg-[#B5121B] flex items-center justify-center shrink-0">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#F6F1EA" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        </div>
+      </div>
+      <div class="flex flex-wrap gap-3">
+        <a href="tel:07744458383" class="btn btn-outline !py-2 !px-5 text-sm">07744458383</a>
+        <a href="tel:07844458383" class="btn btn-outline !py-2 !px-5 text-sm">07844458383</a>
+        <a href="https://wa.me/9647744458383" target="_blank" class="btn btn-red !py-2 !px-5 text-sm">واتساب</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CONTACT / FOOTER ============ -->
+<footer id="contact" class="bg-[#111111] text-[#F6F1EA] pt-20 pb-8">
+  <div class="max-w-7xl mx-auto px-5 md:px-8">
+    <div class="grid md:grid-cols-2 gap-12 mb-16">
+      <div class="reveal">
+        <span class="bg-[#B5121B] text-[#F6F1EA] font-display text-2xl rounded-lg px-3 py-1 inline-block mb-5">paket</span>
+        <p class="text-white/60 leading-relaxed mb-6 max-w-xs">مطعم باكيت — برجر عراقي 100% لحم عراقي خالص، بسعر واحد وجودة أكل البيت.</p>
+        <div class="flex gap-3">
+          <a href="https://instagram.com/paketiraq" target="_blank" class="w-11 h-11 rounded-full border-2 border-white/30 flex items-center justify-center hover:bg-[#F6F1EA] hover:text-[#111111] transition-colors">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+          </a>
+          <a href="https://wa.me/9647740008009" target="_blank" class="w-11 h-11 rounded-full border-2 border-white/30 flex items-center justify-center hover:bg-[#F6F1EA] hover:text-[#111111] transition-colors">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.6 6.3A8.7 8.7 0 0012 4a8.8 8.8 0 00-7.6 13.2L3 21l3.9-1.3A8.8 8.8 0 0012 21a8.8 8.8 0 006.2-15zM12 19.3a7.3 7.3 0 01-3.9-1.1l-.3-.2-2.4.8.8-2.3-.2-.3A7.4 7.4 0 1119.4 12 7.4 7.4 0 0112 19.3z"/></svg>
+          </a>
+        </div>
+      </div>
+
+      <div class="reveal reveal-delay-1">
+        <h4 class="font-display text-xl mb-5">تواصل معنا</h4>
+        <div class="space-y-2 text-sm font-bold">
+          <p class="text-white/50 font-medium mb-3">شارع فلسطين</p>
+          <a href="tel:07740008009" class="block hover:text-[#B5121B] transition-colors">07740008009</a>
+          <a href="tel:07850008009" class="block hover:text-[#B5121B] transition-colors mb-3">07850008009</a>
+          <p class="text-white/50 font-medium mb-3">الحارثية</p>
+          <a href="tel:07744458383" class="block hover:text-[#B5121B] transition-colors">07744458383</a>
+          <a href="tel:07844458383" class="block hover:text-[#B5121B] transition-colors">07844458383</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="stripe mb-6 rounded-full"></div>
+    <p class="text-center text-xs text-white/40 font-medium">© 2026 PAKET RESTAURANT. جميع الحقوق محفوظة.</p>
+  </div>
+</footer>
+
+<!-- WhatsApp floating button -->
+<a id="wa-float" href="https://wa.me/9647740008009" target="_blank" aria-label="واتساب">
+  <svg width="30" height="30" viewBox="0 0 24 24" fill="white"><path d="M17.6 6.3A8.7 8.7 0 0012 4a8.8 8.8 0 00-7.6 13.2L3 21l3.9-1.3A8.8 8.8 0 0012 21a8.8 8.8 0 006.2-15zM12 19.3a7.3 7.3 0 01-3.9-1.1l-.3-.2-2.4.8.8-2.3-.2-.3A7.4 7.4 0 1119.4 12 7.4 7.4 0 0112 19.3z"/></svg>
+</a>
+
+<script>
+  const header = document.getElementById('site-header');
+  window.addEventListener('scroll', () => {
+    header.classList.toggle('scrolled', window.scrollY > 30);
+  });
+
+  const revealEls = document.querySelectorAll('.reveal');
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('in'); });
+  }, { threshold: 0.12 });
+  revealEls.forEach(el => io.observe(el));
+
+  const filterBtns = document.querySelectorAll('.menu-filter');
+  const menuItems = document.querySelectorAll('.menu-item');
+  filterBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      filterBtns.forEach(b => { b.classList.remove('btn-red'); b.classList.add('btn-outline'); });
+      btn.classList.remove('btn-outline');
+      btn.classList.add('btn-red');
+      const f = btn.dataset.filter;
+      menuItems.forEach(item => {
+        item.style.display = (f === 'all' || item.dataset.cat === f) ? '' : 'none';
+      });
+    });
+  });
+</script>
+
+</body>
+</html>
