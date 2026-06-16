@@ -1,0 +1,8 @@
+{
+  "name": "packet",
+  "compatibility_date": "2025-08-23",
+  "assets": {
+    "directory": "./",
+    "not_found_handling": "single-page-application"
+  }
+}
